@@ -32,9 +32,9 @@ const loginUser = async (req, res) => {
 
 // Sign up user function
 const signUp = async (req, res) => {
-    const { IDNumber, fullName, password } = req.body;  // Assuming fullName and IDNumber are required
+    const { IDNumber, fullName, password, AccountNumber } = req.body;  // Assuming fullName and IDNumber are required
     try {
-        const user = await User.signup(IDNumber, fullName, password);  
+        const user = await User.signup(IDNumber, fullName, password, AccountNumber);  
         const token = createToken(user._id);
 
         // Set the cookie
