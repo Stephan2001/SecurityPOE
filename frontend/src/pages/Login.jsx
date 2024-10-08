@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
     const [fullname, setFullname] = useState('');
-    const [ID, setID] = useState('');
-    const [accountNo, setAccountNo] = useState('');
     const [pass, setPass] = useState('');
     const [csrfToken, setCsrfToken] = useState('');
     const [error, setError] = useState('');
@@ -38,16 +36,12 @@ export const Login = () => {
 
         // Log each input field value
         console.log('Full Name:', fullname);
-        console.log('ID Number:', ID);
-        console.log('Account Number:', accountNo);
         console.log('Password:', pass); 
 
         try {
             const response = await axios.post('/api/user/login', {
                 fullName: fullname,
                 password: pass,
-                IDNumber: ID,
-                AccountNumber: accountNo, // Optional: include AccountNumber if needed
             }, {
                 headers: {
                     'X-CSRF-Token': csrfToken,
@@ -74,26 +68,6 @@ export const Login = () => {
                     onChange={(e) => setFullname(e.target.value)} 
                     name="fullname" 
                     id="fullname" 
-                    required
-                />
-                
-                {/* ID Number */}
-                <label htmlFor="ID">ID Number:</label>
-                <input 
-                    value={ID} 
-                    onChange={(e) => setID(e.target.value)} 
-                    name="ID" 
-                    id="ID" 
-                    required
-                />
-                
-                {/* Account Number */}
-                <label htmlFor="accountNo">Account Number:</label>
-                <input 
-                    value={accountNo} 
-                    onChange={(e) => setAccountNo(e.target.value)} 
-                    name="accountNo" 
-                    id="accountNo" 
                     required
                 />
                 
