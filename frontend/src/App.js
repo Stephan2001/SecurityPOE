@@ -1,28 +1,26 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import './app.css';
 import Home from './pages/home'
 import Navbar from './components/navbar'
 import login from './pages/Login'
 
 function App() {
+  const [currentForm, setCurrentForm] = useState('login')
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName);
+  };
+
   return (
     <div className="App">
-      <BrowserRouter>
-      <Navbar/>
-        <div className='pages'>
-          <Routes>
-            <Route path='/'
-            element={<Home />}
-            />
-          </Routes>
-          <Routes>
-            <Route path='/Login'
-            element={<Home />}
-            />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      {/* {
+        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+      }  */}
+
+      <Home/>     
     </div>
   );
 }
+
 
 export default App;
