@@ -1,27 +1,23 @@
-import React, { useState, useEffect } from "react";
-import '../App.css';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const Register = () => {
-    const [fullname, setFullname] = useState('');
+const RegisterPage = () => {
     const [ID, setID] = useState('');
-    const [accountNo, setAccountNo] = useState('');
+    const [accountNumber, setAccountNumber] = useState(''); // State for AccountNumber
+    const [fullname, setFullname] = useState('');
     const [pass, setPass] = useState('');
-    const [error, setError] = useState(null);
-    const [csrfToken, setCsrfToken] = useState(null); // State for CSRF token
-
-    const navigate = useNavigate(); 
+    const [csrfToken, setCsrfToken] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
+        // Fetch the CSRF token
         const fetchCsrfToken = async () => {
             try {
-                const response = await axios.get('/api/csrf');
-                console.log(response.data); // Log the entire response to debug
-                setCsrfToken(response.data.csrfToken); // Adjust if the structure is different
+                const response = await axios.get('/api/csrf-token'); // Use relative path
+                setCsrfToken(response.data.csurfToken);
             } catch (err) {
-                console.error('Error fetching CSRF token:', err);
-                setError('Could not fetch CSRF token');
+                console.error(err);
+                setError('Failed to fetch CSRF token');
             }
         };
 
@@ -32,23 +28,31 @@ export const Register = () => {
         e.preventDefault();
 
         if (!csrfToken) {
-            setError('CSRF token is not available'); // Handle case where token is not fetched
+            setError('CSRF token is not available. Please refresh the page and try again.');
             return;
         }
+
+        // Log each input field value
+        console.log('ID Number:', ID);
+        console.log('Account Number:', accountNumber);
+        console.log('Full Name:', fullname);
+        console.log('Password:', pass); 
 
         try {
             const response = await axios.post('/api/user/signup', {
                 IDNumber: ID,
+                AccountNumber: accountNumber, // Include AccountNumber in the request
                 fullName: fullname,
                 password: pass,
             }, {
                 headers: {
-                    'X-CSRF-Token': csrfToken, // Include CSRF token in the header
+                    'X-CSRF-Token': csrfToken,
                 },
             });
 
             console.log(response.data);
-            navigate('/login'); 
+            // Handle successful registration (e.g., navigate to login)
+            // Optionally redirect or show a success message
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.error || 'Registration failed');
@@ -56,51 +60,51 @@ export const Register = () => {
     };
 
     return (
-        <div className="auth-form-container">
-            <h2 className="heading">Register</h2>
-            {error && <p className="error-message">{error}</p>}
-            <form className="register-form" onSubmit={handleSubmit}>
-                <label htmlFor="fullname">Fullname:</label>
-                <input 
-                    value={fullname} 
-                    onChange={(e) => setFullname(e.target.value)} 
-                    name="fullname" 
-                    id="fullname" 
-                />
-                
-                <label htmlFor="ID">ID Number:</label>
-                <input 
-                    value={ID} 
-                    onChange={(e) => setID(e.target.value)} 
-                    name="ID" 
-                    id="ID" 
-                />
-                
-                <label htmlFor="accountNo">Account Number:</label>
-                <input 
-                    value={accountNo} 
-                    onChange={(e) => setAccountNo(e.target.value)} 
-                    name="accountNo" 
-                    id="accountNo" 
-                />
-                
-                <label htmlFor="password">Password:</label>
-                <input 
-                    value={pass}  
-                    onChange={(e) => setPass(e.target.value)} 
-                    type="password" 
-                    id="password" 
-                    name="password" 
-                />
-                
-                <button type="submit">Register</button>
-            </form>
-            
-            <button className="btn" onClick={() => navigate('/login')}>
-                <i>Already have an account? Login here.</i>
-            </button>
-        </div>
+        <form onSubmit={handleSubmit}>
+        <input
+            type="text"
+            value={ID}
+            onChange={(e) => {
+                console.log('ID Number Input:', e.target.value); // Log the ID input value
+                setID(e.target.value);
+            }}
+            placeholder="ID Number"
+            required
+        />
+        <input
+            type="text"
+            value={accountNumber}
+            onChange={(e) => {
+                console.log('Account Number Input:', e.target.value); // Log the Account Number input value
+                setAccountNumber(e.target.value);
+            }} 
+            placeholder="Account Number"
+            required
+        />
+        <input
+            type="text"
+            value={fullname}
+            onChange={(e) => {
+                console.log('Full Name Input:', e.target.value); // Log the Full Name input value
+                setFullname(e.target.value);
+            }}
+            placeholder="Full Name"
+            required
+        />
+        <input
+            type="password"
+            value={pass}
+            onChange={(e) => {
+                console.log('Password Input:', e.target.value); // Log the Password input value
+                setPass(e.target.value);
+            }}
+            placeholder="Password"
+            required
+        />
+            <button type="submit">Register</button>
+            {error && <p>{error}</p>}
+        </form>
     );
 };
 
-export default Register;
+export default RegisterPage;

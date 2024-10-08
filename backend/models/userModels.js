@@ -3,14 +3,6 @@ const Schema = mongoose.Schema;
 const validator = require('validator');
 const bcrypt = require('bcrypt');
 
-// Create a schema for the counters collection
-const counterSchema = new Schema({
-    _id: { type: String, required: true },
-    seq: { type: Number, default: 0 }
-});
-
-const Counter = mongoose.model('Counter', counterSchema);
-
 // Create the user schema
 const userSchema = new Schema({
     IDNumber: {
@@ -39,21 +31,21 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 
-// Function to get the next account number
-async function getNextSequenceValue(sequenceName) {
-    const counter = await Counter.findByIdAndUpdate(
-        { _id: sequenceName },
-        { $inc: { seq: 1 } },  // Increment the sequence
-        { new: true, upsert: true }  // Create if not exists
-    );
-    return counter.seq;
-}
-
-userSchema.statics.signup = async function (IDNumber, fullName, password) {
+// Static method for user signup
+userSchema.statics.signup = async function (IDNumber,fullName,password,AccountNumber) {
     
+    console.log('IDNumber:', IDNumber);
+    console.log('AccountNumber:', AccountNumber);
+    console.log('fullName:', fullName);
+    console.log('password:', password);
     // Check if all fields are filled
-    if (!IDNumber || !fullName || !password) {
+    if (!IDNumber || !AccountNumber || !fullName || !password) {
         throw new Error('All fields must be filled');
+    }
+
+    // Validate AccountNumber format
+    if (!/^[0-9]{10}$/.test(AccountNumber)) {
+        throw new Error('AccountNumber must be 10 digits long');
     }
 
     // Check password strength
@@ -62,13 +54,16 @@ userSchema.statics.signup = async function (IDNumber, fullName, password) {
     }
 
     // Check if user with the same IDNumber already exists
-    const exists = await this.findOne({ IDNumber });
-    if (exists) {
+    const idExists = await this.findOne({ IDNumber });
+    if (idExists) {
         throw new Error('IDNumber already in use');
     }
 
-    // Generate unique account number
-    const AccountNumber = await getNextSequenceValue('accountNumber');
+    // Check if user with the same AccountNumber already exists
+    const accountExists = await this.findOne({ AccountNumber });
+    if (accountExists) {
+        throw new Error('AccountNumber already in use');
+    }
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
@@ -76,12 +71,13 @@ userSchema.statics.signup = async function (IDNumber, fullName, password) {
 
     // Sanitize inputs
     const sanitizedIDNumber = validator.escape(IDNumber);
+    const sanitizedAccountNumber = validator.escape(AccountNumber);
     const sanitizedFullName = validator.escape(fullName);
 
     // Create and return the user
     const user = await this.create({ 
         IDNumber: sanitizedIDNumber, 
-        AccountNumber, 
+        AccountNumber: sanitizedAccountNumber, 
         fullName: sanitizedFullName, 
         password: hash 
     });
