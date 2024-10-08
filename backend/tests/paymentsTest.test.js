@@ -29,7 +29,8 @@ describe('POST /api/payment', () => {
             AccountNumber: '1234567890',
             currency: 'USD',
             amount: 100,
-            provider: 'Visa'
+            provider: 'Visa',
+            swiftCode: '2345'
         };
 
         const response = await request(app)
@@ -44,5 +45,6 @@ describe('POST /api/payment', () => {
         expect(response.body.currency).toBe(newPayment.currency);
         expect(response.body.amount).toBe(newPayment.amount);
         expect(response.body.provider).toBe(newPayment.provider);
+        expect(response.body.swiftCode).toBe(newPayment.swiftCode);
     });
 });

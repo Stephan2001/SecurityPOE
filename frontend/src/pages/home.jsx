@@ -7,11 +7,12 @@ export const Home = () => {
     const [currency, setCurrency] = useState('ZAR');
     const [provider, setProvider] = useState('SWIFT');
     const [accountInfo, setAccountInfo] = useState('');
-    const [swiftCode, setSwiftCode] = useState('');
+    const [swiftCode, setSwiftCode] = useState(''); // Add swiftCode state
     const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
     const [successMessage, setSuccessMessage] = useState(''); // For displaying success message
     const csrfToken = localStorage.getItem('csrfToken');
     console.log('Using CSRF Token:', csrfToken);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage(''); // Clear previous error message
@@ -22,7 +23,8 @@ export const Home = () => {
             AccountNumber: accountInfo, // Assuming account info is the account number
             currency,
             amount: parseFloat(amount), // Convert amount to a number
-            provider
+            provider,
+            swiftCode // Include swiftCode in the payment data
         };
 
         try {
@@ -73,7 +75,9 @@ export const Home = () => {
                     <option value="ZAR">ZAR</option>
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
-                    {/* Add more currencies as needed */}
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="GBP">GBP</option>
                 </select>
      
                 {/* Payment Provider */}
@@ -92,6 +96,15 @@ export const Home = () => {
                     type="text" 
                     value={accountInfo} 
                     onChange={(e) => setAccountInfo(e.target.value)} 
+                    required 
+                />
+
+                {/* SWIFT Code */}
+                <label htmlFor="swiftCode">SWIFT Code:</label>
+                <input 
+                    type="text" 
+                    value={swiftCode} 
+                    onChange={(e) => setSwiftCode(e.target.value)} 
                     required 
                 />
         

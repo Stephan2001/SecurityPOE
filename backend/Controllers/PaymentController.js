@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 // Create new payment
 const createPayment = async (req, res) => {
     console.log('Request Body:', req.body);
-    const { AccountNumber, currency, amount, provider } = req.body; // Destructure to match your model
+    const { AccountNumber, currency, amount, provider, swiftCode } = req.body; // Destructure to match your model
 
     try {
-        const payment = await Payment.create({ AccountNumber, currency, amount, provider });
+        const payment = await Payment.create({ AccountNumber, currency, amount, provider, swiftCode });
         res.status(201).json(payment); // Use 201 for created resource
     } catch (error) {
         // Handle validation errors specifically

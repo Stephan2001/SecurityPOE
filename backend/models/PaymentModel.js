@@ -28,6 +28,13 @@ const paymentSchema = new Schema({
         match: /^[A-Za-z\s]+$/, // Letters and spaces only
         minlength: 3,
         maxlength: 50 
+    },
+    swiftCode: {
+        type: String,
+        required: true,
+        match: /^[A-Za-z0-9]{8,11}$/, // Adjust regex for SWIFT code validation
+        minlength: 8,
+        maxlength: 11
     }
 }, { timestamps: true });
 
