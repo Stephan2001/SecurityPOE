@@ -20,7 +20,7 @@ export const Home = () => {
 
         // Payment data to be sent to the API
         const paymentData = {
-            AccountNumber: accountInfo, // Assuming account info is the account number
+            AccountNumber: accountInfo,
             currency,
             amount: parseFloat(amount), // Convert amount to a number
             provider,
@@ -44,8 +44,6 @@ export const Home = () => {
 
             const result = await response.json();
             setSuccessMessage(`Payment successful! Payment ID: ${result._id}`);
-            // Optionally navigate to a success page or clear the form
-            // navigate('/success'); // Uncomment and change '/success' to your success route if needed
         } catch (error) {
             setErrorMessage(error.message);
             console.error('Payment error:', error);
@@ -87,7 +85,6 @@ export const Home = () => {
                     onChange={(e) => setProvider(e.target.value)} 
                 >
                     <option value="SWIFT">SWIFT</option>
-                    {/* Add other providers as needed */}
                 </select>
         
                 {/* Account Info */}
