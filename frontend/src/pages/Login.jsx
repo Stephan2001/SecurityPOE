@@ -12,13 +12,11 @@ export const Login = () => {
     const navigate = useNavigate(); // Hook for programmatic navigation
 
     useEffect(() => {
-        // Fetch the CSRF token
         const fetchCsrfToken = async () => {
             try {
-                const response = await axios.get('/api/csrf-token'); // Use relative path
-                const token = response.data.csrfToken; // Ensure you access the correct key here
-                setCsrfToken(token);
-                localStorage.setItem('csrfToken', token); // Store it only after setting it
+                const response = await axios.get('/api/csrf-token'); 
+                setCsrfToken(response.data.csurfToken);
+                localStorage.setItem('csrfToken', response.data.csurfToken);
             } catch (err) {
                 console.error(err);
                 setError('Failed to fetch CSRF token');
@@ -31,12 +29,15 @@ export const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!csrfToken) {
+        // Retrieve token from state or local storage
+        const token = csrfToken || localStorage.getItem('csrfToken');
+
+        if (!token) {
             setError('CSRF token is not available. Please refresh the page and try again.');
             return;
         }
 
-        // Log each input field value
+        console.log('Using CSRF Token:', token); // Log the token being used for the request
         console.log('Full Name:', fullname);
         console.log('Password:', pass); 
 
@@ -46,12 +47,11 @@ export const Login = () => {
                 password: pass,
             }, {
                 headers: {
-                    'X-CSRF-Token': csrfToken,
+                    'X-CSRF-Token': token,
                 },
             });
 
-            console.log(response.data);
-            // Handle successful login (e.g., navigate to home)
+            console.log('Login Response:', response.data);
             navigate('/home'); // Redirect to home after successful login
         } catch (err) {
             console.error(err);
@@ -63,7 +63,6 @@ export const Login = () => {
         <div className="auth-form-container">
             <h2 className="heading">Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
-                {/* Full name */}
                 <label htmlFor="fullname">Fullname:</label>
                 <input 
                     value={fullname} 
@@ -73,7 +72,6 @@ export const Login = () => {
                     required
                 />
                 
-                {/* Password */}
                 <label htmlFor="password">Password:</label> 
                 <input 
                     value={pass}  
@@ -84,12 +82,10 @@ export const Login = () => {
                     required
                 />
                 
-                {/* Login button */}
                 <button type="submit">LOGIN</button>
                 {error && <p className="error">{error}</p>}
             </form>
                 
-            {/* Button to register page */}
             <button className="btn" onClick={() => navigate('/register')}>
                 <i>Don't have an account? Register here.</i>
             </button>

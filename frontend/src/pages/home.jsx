@@ -10,7 +10,7 @@ export const Home = () => {
     const [swiftCode, setSwiftCode] = useState('');
     const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
     const [successMessage, setSuccessMessage] = useState(''); // For displaying success message
-    
+    const csrfToken = localStorage.getItem('csrfToken');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -31,7 +31,7 @@ export const Home = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Include CSRF token here if needed, e.g. 'X-CSRF-Token': csrfToken
+                    'X-CSRF-Token': csrfToken
                 },
                 body: JSON.stringify(paymentData),
             });
