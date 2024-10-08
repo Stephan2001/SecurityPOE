@@ -11,8 +11,7 @@ export const Home = () => {
     const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
     const [successMessage, setSuccessMessage] = useState(''); // For displaying success message
     const csrfToken = localStorage.getItem('csrfToken');
-    const navigate = useNavigate();
-
+    console.log('Using CSRF Token:', csrfToken);
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErrorMessage(''); // Clear previous error message
@@ -27,7 +26,7 @@ export const Home = () => {
         };
 
         try {
-            const response = await fetch('/api/payments', {
+            const response = await fetch('/api/payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

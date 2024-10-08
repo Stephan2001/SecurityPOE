@@ -13,7 +13,7 @@ const paymentSchema = new Schema({
     currency: {
         type: String,
         required: true,
-        enum: ['USD', 'EUR', 'GBP', 'AUD', 'CAD'],
+        enum: ['USD', 'EUR', 'GBP', 'AUD', 'CAD', 'ZAR'],
         minlength: 3, 
         maxlength: 3  
     },
