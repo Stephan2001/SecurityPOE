@@ -1,26 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import '../App.css';
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 export const Register = () => {
     const [fullname, setFullname] = useState('');
     const [ID, setID] = useState('');
     const [accountNo, setAccountNo] = useState('');
     const [pass, setPass] = useState('');
-    
+    const [error, setError] = useState(null);
+    const [csrfToken, setCsrfToken] = useState(null); // State for CSRF token
+
     const navigate = useNavigate(); 
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchCsrfToken = async () => {
+            try {
+                const response = await axios.get('/api/csrf');
+                console.log(response.data); // Log the entire response to debug
+                setCsrfToken(response.data.csrfToken); // Adjust if the structure is different
+            } catch (err) {
+                console.error('Error fetching CSRF token:', err);
+                setError('Could not fetch CSRF token');
+            }
+        };
+
+        fetchCsrfToken();
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(fullname);
-        navigate('/login'); // Redirect to login after registration
+
+        if (!csrfToken) {
+            setError('CSRF token is not available'); // Handle case where token is not fetched
+            return;
+        }
+
+        try {
+            const response = await axios.post('/api/user/signup', {
+                IDNumber: ID,
+                fullName: fullname,
+                password: pass,
+            }, {
+                headers: {
+                    'X-CSRF-Token': csrfToken, // Include CSRF token in the header
+                },
+            });
+
+            console.log(response.data);
+            navigate('/login'); 
+        } catch (err) {
+            console.error(err);
+            setError(err.response?.data?.error || 'Registration failed');
+        }
     };
 
     return (
         <div className="auth-form-container">
             <h2 className="heading">Register</h2>
+            {error && <p className="error-message">{error}</p>}
             <form className="register-form" onSubmit={handleSubmit}>
-                {/* Full name */}
                 <label htmlFor="fullname">Fullname:</label>
                 <input 
                     value={fullname} 
@@ -29,7 +68,6 @@ export const Register = () => {
                     id="fullname" 
                 />
                 
-                {/* ID Number */}
                 <label htmlFor="ID">ID Number:</label>
                 <input 
                     value={ID} 
@@ -38,7 +76,6 @@ export const Register = () => {
                     id="ID" 
                 />
                 
-                {/* Account Number */}
                 <label htmlFor="accountNo">Account Number:</label>
                 <input 
                     value={accountNo} 
@@ -47,7 +84,6 @@ export const Register = () => {
                     id="accountNo" 
                 />
                 
-                {/* Password */}
                 <label htmlFor="password">Password:</label>
                 <input 
                     value={pass}  
@@ -57,11 +93,9 @@ export const Register = () => {
                     name="password" 
                 />
                 
-                {/* Register button */}
                 <button type="submit">Register</button>
             </form>
             
-            {/* Button to login page */}
             <button className="btn" onClick={() => navigate('/login')}>
                 <i>Already have an account? Login here.</i>
             </button>
