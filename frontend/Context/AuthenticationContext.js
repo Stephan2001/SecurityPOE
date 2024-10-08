@@ -2,7 +2,7 @@ import { createContext, useReducer } from 'react'
 
 export const AuthenticationContext = createContext()
 
-export const UuserReducer = (state, action) => {
+export const UserReducer = (state, action) => {
     switch (action.type){
         case 'LOGIN':
             return {
@@ -12,8 +12,6 @@ export const UuserReducer = (state, action) => {
             return {
                 user: null
             }
-                
-
             default:
                 return state
     }

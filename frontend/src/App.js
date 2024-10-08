@@ -1,7 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
-import './app.css';
+import './index.css';
 import Home from './pages/home'
-import Navbar from './components/navbar'
+// import Navbar from './components/navbar'
 import login from './pages/Login'
 
 function App() {
@@ -13,11 +13,14 @@ function App() {
 
   return (
     <div className="App">
-      {/* {
-        currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
-      }  */}
-
-      <Home/>     
+      <BrowserRouter>
+        <div className="pages">
+          <Routes>
+            currentForm === "login" ? <Login onFormSwitch={toggleForm} /> : <Register onFormSwitch={toggleForm} />
+            <Route path='/' element={<Home />} />
+          </Routes> 
+        </div>
+      </BrowserRouter>    
     </div>
   );
 }

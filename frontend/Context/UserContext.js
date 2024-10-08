@@ -1,8 +1,7 @@
 import { createContext, useReducer } from 'react'
+export const UserContext = createContext()
 
-export const BookContext = createContext()
-
-export const booksReducer = (state, action) => {
+export const userReducer = (state, action) => {
     switch (action.type){
         case 'LOGIN':
             return {
@@ -18,8 +17,8 @@ export const booksReducer = (state, action) => {
     }
 }
 
-export const BookContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(booksReducer, {
+export const UserContextProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(UserReducer, {
         books: []
     })
     
