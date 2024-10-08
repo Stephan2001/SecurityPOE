@@ -8,22 +8,47 @@ export const Home = () => {
     const [provider, setProvider] = useState('SWIFT');
     const [accountInfo, setAccountInfo] = useState('');
     const [swiftCode, setSwiftCode] = useState('');
+    const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
+    const [successMessage, setSuccessMessage] = useState(''); // For displaying success message
     
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log({
-            amount,
-            currency,
-            provider,
-            accountInfo,
-            swiftCode,
-        });
-        // You can add your payment processing logic here
+        setErrorMessage(''); // Clear previous error message
+        setSuccessMessage(''); // Clear previous success message
 
-        // Optionally, navigate to a success page or another route after submission
-        // navigate('/success'); // Uncomment and change '/success' to your success route if needed
+        // Payment data to be sent to the API
+        const paymentData = {
+            AccountNumber: accountInfo, // Assuming account info is the account number
+            currency,
+            amount: parseFloat(amount), // Convert amount to a number
+            provider
+        };
+
+        try {
+            const response = await fetch('/api/payments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Include CSRF token here if needed, e.g. 'X-CSRF-Token': csrfToken
+                },
+                body: JSON.stringify(paymentData),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Something went wrong');
+            }
+
+            const result = await response.json();
+            setSuccessMessage(`Payment successful! Payment ID: ${result._id}`);
+            // Optionally navigate to a success page or clear the form
+            // navigate('/success'); // Uncomment and change '/success' to your success route if needed
+        } catch (error) {
+            setErrorMessage(error.message);
+            console.error('Payment error:', error);
+        }
     };
 
     return (
@@ -39,7 +64,7 @@ export const Home = () => {
                     onChange={(e) => setAmount(e.target.value)} 
                     required 
                 />
-    
+
                 {/* Currency */}
                 <label htmlFor="currency">Currency:</label>
                 <select 
@@ -71,17 +96,12 @@ export const Home = () => {
                     required 
                 />
         
-                {/* SWIFT Code */}
-                <label htmlFor="swiftCode">SWIFT Code:</label>
-                <input 
-                    type="text" 
-                    value={swiftCode} 
-                    onChange={(e) => setSwiftCode(e.target.value)} 
-                    required 
-                />
-        
                 {/* Pay now */}
                 <button type="submit">Pay Now</button>
+
+                {/* Error and success messages */}
+                {errorMessage && <p className="error-message">{errorMessage}</p>}
+                {successMessage && <p className="success-message">{successMessage}</p>}
             </form>
         </div>
     );

@@ -61,46 +61,46 @@ const RegisterPage = () => {
 
     return (
         <form onSubmit={handleSubmit}>
-        <input
-            type="text"
-            value={ID}
-            onChange={(e) => {
-                console.log('ID Number Input:', e.target.value); // Log the ID input value
-                setID(e.target.value);
-            }}
-            placeholder="ID Number"
-            required
-        />
-        <input
-            type="text"
-            value={accountNumber}
-            onChange={(e) => {
-                console.log('Account Number Input:', e.target.value); // Log the Account Number input value
-                setAccountNumber(e.target.value);
-            }} 
-            placeholder="Account Number"
-            required
-        />
-        <input
-            type="text"
-            value={fullname}
-            onChange={(e) => {
-                console.log('Full Name Input:', e.target.value); // Log the Full Name input value
-                setFullname(e.target.value);
-            }}
-            placeholder="Full Name"
-            required
-        />
-        <input
-            type="password"
-            value={pass}
-            onChange={(e) => {
-                console.log('Password Input:', e.target.value); // Log the Password input value
-                setPass(e.target.value);
-            }}
-            placeholder="Password"
-            required
-        />
+            <input
+    type="text"
+    value={ID}
+    onChange={(e) => {
+        console.log('ID Number Input:', e.target.value); // Log the ID input value
+        setID(e.target.value);
+    }}
+    placeholder="ID Number"
+    required
+/>
+<input
+    type="text"
+    value={accountNumber}
+    onChange={(e) => {
+        console.log('Account Number Input:', e.target.value); // Log the Account Number input value
+        setAccountNumber(e.target.value);
+    }} 
+    placeholder="Account Number"
+    required
+/>
+<input
+    type="text"
+    value={fullname}
+    onChange={(e) => {
+        console.log('Full Name Input:', e.target.value); // Log the Full Name input value
+        setFullname(e.target.value);
+    }}
+    placeholder="Full Name"
+    required
+/>
+<input
+    type="password"
+    value={pass}
+    onChange={(e) => {
+        console.log('Password Input:', e.target.value); // Log the Password input value
+        setPass(e.target.value);
+    }}
+    placeholder="Password"
+    required
+/>
             <button type="submit">Register</button>
             {error && <p>{error}</p>}
         </form>

@@ -19,6 +19,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(helmet()); 
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        frameAncestors: ["'self'"] // Only allow framing by the same origin
+    }
+}));
 app.use(csurf({
     cookie: {
         httpOnly: true,

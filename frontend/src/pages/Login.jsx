@@ -16,7 +16,9 @@ export const Login = () => {
         const fetchCsrfToken = async () => {
             try {
                 const response = await axios.get('/api/csrf-token'); // Use relative path
-                setCsrfToken(response.data.csurfToken);
+                const token = response.data.csrfToken; // Ensure you access the correct key here
+                setCsrfToken(token);
+                localStorage.setItem('csrfToken', token); // Store it only after setting it
             } catch (err) {
                 console.error(err);
                 setError('Failed to fetch CSRF token');
@@ -50,7 +52,7 @@ export const Login = () => {
 
             console.log(response.data);
             // Handle successful login (e.g., navigate to home)
-            navigate('/'); // Redirect to home after successful login
+            navigate('/home'); // Redirect to home after successful login
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.error || 'Login failed');
