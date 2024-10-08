@@ -1,5 +1,4 @@
 const express = require('express');
-const booksRoute = require('./routes/books');
 const userRoute = require('./routes/userRouter');
 const paymentRoute = require('./routes/payments')
 const mongoose = require('mongoose');
@@ -44,7 +43,6 @@ app.use((req, res, next) => {
 
 // Register routes
 app.use('/api/payment', paymentRoute)
-app.use('/api/books', booksRoute);
 app.use('/api/user', userRoute);  
 
 // CSRF token endpoint
