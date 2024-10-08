@@ -1,12 +1,13 @@
 const express = require('express');
 const userRoute = require('./routes/userRouter');
-const paymentRoute = require('./routes/payments')
+const paymentRoute = require('./routes/payments');
 const mongoose = require('mongoose');
 const https = require('https');
 const path = require('path');
 const fs = require('fs');
 const csurf = require('csurf');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
 require('dotenv').config();
 const http = require('http');
 const httpPort = process.env.HTTP_PORT || 3001;
@@ -18,6 +19,9 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
+// Set up Helmet for security headers
+app.use(helmet()); 
+
 // Set up CSRF protection
 app.use(csurf({
     cookie: {
@@ -27,11 +31,11 @@ app.use(csurf({
     }
 }));
 
-// force browser to use https
+// Force browser to use HTTPS
 app.use(hsts({
-    maxAge: 63072000, 
-    includeSubDomains: true, // optional
-    preload: true // optional
+    maxAge: 63072000,
+    includeSubDomains: true, 
+    preload: true
 }));
 
 // Middleware to log requests
@@ -42,7 +46,7 @@ app.use((req, res, next) => {
 });
 
 // Register routes
-app.use('/api/payment', paymentRoute)
+app.use('/api/payment', paymentRoute);
 app.use('/api/user', userRoute);  
 
 // CSRF token endpoint
