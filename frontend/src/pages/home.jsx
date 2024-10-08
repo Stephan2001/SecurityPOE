@@ -11,7 +11,7 @@ export const Home = () => {
     const [errorMessage, setErrorMessage] = useState(''); // For displaying errors
     const [successMessage, setSuccessMessage] = useState(''); // For displaying success message
     const csrfToken = localStorage.getItem('csrfToken');
-    console.log('Using CSRF Token:', csrfToken);
+    //console.log('Using CSRF Token:', csrfToken);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

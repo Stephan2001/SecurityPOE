@@ -37,9 +37,9 @@ export const Login = () => {
             return;
         }
 
-        console.log('Using CSRF Token:', token); // Log the token being used for the request
-        console.log('Full Name:', fullname);
-        console.log('Password:', pass); 
+        //console.log('Using CSRF Token:', token); // Log the token being used for the request
+        //console.log('Full Name:', fullname);
+        //console.log('Password:', pass); 
 
         try {
             const response = await axios.post('/api/user/login', {
@@ -51,7 +51,7 @@ export const Login = () => {
                 },
             });
 
-            console.log('Login Response:', response.data);
+            //console.log('Login Response:', response.data);
             navigate('/home'); // Redirect to home after successful login
         } catch (err) {
             console.error(err);

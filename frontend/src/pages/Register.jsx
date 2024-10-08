@@ -33,10 +33,10 @@ const RegisterPage = () => {
         }
 
         // Log each input field value
-        console.log('ID Number:', ID);
-        console.log('Account Number:', accountNumber);
-        console.log('Full Name:', fullname);
-        console.log('Password:', pass); 
+        //console.log('ID Number:', ID);
+        //console.log('Account Number:', accountNumber);
+        //console.log('Full Name:', fullname);
+        //console.log('Password:', pass); 
 
         try {
             const response = await axios.post('/api/user/signup', {
@@ -50,11 +50,9 @@ const RegisterPage = () => {
                 },
             });
 
-            console.log(response.data);
-            // Handle successful registration (e.g., navigate to login)
-            // Optionally redirect or show a success message
+            //console.log(response.data);
         } catch (err) {
-            console.error(err);
+            //console.error(err);
             setError(err.response?.data?.error || 'Registration failed');
         }
     };
@@ -65,7 +63,7 @@ const RegisterPage = () => {
     type="text"
     value={ID}
     onChange={(e) => {
-        console.log('ID Number Input:', e.target.value); // Log the ID input value
+        //console.log('ID Number Input:', e.target.value); // Log the ID input value
         setID(e.target.value);
     }}
     placeholder="ID Number"
@@ -75,7 +73,7 @@ const RegisterPage = () => {
     type="text"
     value={accountNumber}
     onChange={(e) => {
-        console.log('Account Number Input:', e.target.value); // Log the Account Number input value
+        //console.log('Account Number Input:', e.target.value); // Log the Account Number input value
         setAccountNumber(e.target.value);
     }} 
     placeholder="Account Number"
@@ -85,7 +83,7 @@ const RegisterPage = () => {
     type="text"
     value={fullname}
     onChange={(e) => {
-        console.log('Full Name Input:', e.target.value); // Log the Full Name input value
+        //console.log('Full Name Input:', e.target.value); // Log the Full Name input value
         setFullname(e.target.value);
     }}
     placeholder="Full Name"
@@ -95,7 +93,7 @@ const RegisterPage = () => {
     type="password"
     value={pass}
     onChange={(e) => {
-        console.log('Password Input:', e.target.value); // Log the Password input value
+        //console.log('Password Input:', e.target.value); // Log the Password input value
         setPass(e.target.value);
     }}
     placeholder="Password"
