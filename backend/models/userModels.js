@@ -9,7 +9,7 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true,
-        match: /^[A-Z0-9]{8}$/ // 8 alphanumeric characters
+        match: /^[A-Z0-9]{13}$/ // 8 alphanumeric characters
     },
     AccountNumber: {
         type: String,
@@ -83,5 +83,27 @@ userSchema.statics.signup = async function (IDNumber,fullName,password,AccountNu
     });
     return user;
 };
+
+userSchema.statics.login = async function (fullName, password) {
+    // Validate if both fields are provided
+    if (!fullName || !password) {
+        throw new Error('All fields must be filled');
+    }
+
+    // Find the user by fullName
+    const user = await this.findOne({ fullName });
+    if (!user) {
+        throw new Error('Incorrect full name or password');
+    }
+
+    // Compare the provided password with the stored hashed password
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+        throw new Error('Incorrect full name or password');
+    }
+
+    return user;
+};
+
 
 module.exports = mongoose.model('User', userSchema);
