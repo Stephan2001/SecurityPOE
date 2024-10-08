@@ -28,7 +28,9 @@ const userSchema = new Schema({
     fullName: {
         type: String,
         required: true,
-        match: /^[A-Za-z\s]+$/ // letters and spaces only
+        match: /^[A-Za-z\s]+$/, // letters and spaces only
+        minlength: 3,
+        maxlength: 50
     },
     password: {
         type: String,
@@ -51,18 +53,18 @@ userSchema.statics.signup = async function (IDNumber, fullName, password) {
     
     // Check if all fields are filled
     if (!IDNumber || !fullName || !password) {
-        throw Error('All fields must be filled');
+        throw new Error('All fields must be filled');
     }
 
     // Check password strength
     if (!validator.isStrongPassword(password)) {
-        throw Error('Password is not strong enough');
+        throw new Error('Password is not strong enough');
     }
 
-    // Check if user with same IDNumber already exists
+    // Check if user with the same IDNumber already exists
     const exists = await this.findOne({ IDNumber });
     if (exists) {
-        throw Error('IDNumber already in use');
+        throw new Error('IDNumber already in use');
     }
 
     // Generate unique account number
@@ -72,8 +74,17 @@ userSchema.statics.signup = async function (IDNumber, fullName, password) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
+    // Sanitize inputs
+    const sanitizedIDNumber = validator.escape(IDNumber);
+    const sanitizedFullName = validator.escape(fullName);
+
     // Create and return the user
-    const user = await this.create({ IDNumber, AccountNumber, fullName, password: hash });
+    const user = await this.create({ 
+        IDNumber: sanitizedIDNumber, 
+        AccountNumber, 
+        fullName: sanitizedFullName, 
+        password: hash 
+    });
     return user;
 };
 
