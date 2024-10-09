@@ -3,18 +3,40 @@ const mongoose = require('mongoose');
 
 // Create new payment
 const createPayment = async (req, res) => {
-    console.log('Request Body:', req.body);
-    const { AccountNumber, currency, amount, provider, swiftCode } = req.body; // Destructure to match your model
+    const { AccountNumber, currency, amount, provider, swiftCode } = req.body;
+
+    // Input validation and sanitization
+    if (!AccountNumber || !validator.matches(AccountNumber, /^[0-9]{10}$/)) {
+        return sendErrorResponse(res, 400, 'Invalid Account Number: Must be exactly 10 digits.');
+    }
+    if (!currency || !['USD', 'EUR', 'GBP', 'AUD', 'CAD', 'ZAR'].includes(currency)) {
+        return sendErrorResponse(res, 400, 'Invalid currency: Must be one of USD, EUR, GBP, AUD, CAD, ZAR.');
+    }
+    if (amount === undefined || amount < 0) {
+        return sendErrorResponse(res, 400, 'Invalid amount: Must be a non-negative number.');
+    }
+    if (!provider || !validator.matches(provider, /^[A-Za-z\s]+$/) || provider.length < 3 || provider.length > 50) {
+        return sendErrorResponse(res, 400, 'Invalid provider: Must be letters only and 3-50 characters long.');
+    }
+    if (!swiftCode || !validator.matches(swiftCode, /^[A-Za-z0-9]{8,11}$/)) {
+        return sendErrorResponse(res, 400, 'Invalid SWIFT code: Must be 8 to 11 alphanumeric characters.');
+    }
 
     try {
-        const payment = await Payment.create({ AccountNumber, currency, amount, provider, swiftCode });
+        // Create the payment after validation
+        const payment = await Payment.create({ 
+            AccountNumber: validator.escape(AccountNumber),
+            currency,
+            amount,
+            provider: validator.escape(provider),
+            swiftCode: validator.escape(swiftCode)
+        });
         res.status(201).json(payment); // Use 201 for created resource
     } catch (error) {
-        // Handle validation errors specifically
         if (error.name === 'ValidationError') {
-            return res.status(400).json({ error: error.message });
+            return sendErrorResponse(res, 400, error.message);
         }
-        res.status(500).json({ error: 'Internal Server Error' });
+        sendErrorResponse(res, 500, 'Internal Server Error');
     }
 };
 
