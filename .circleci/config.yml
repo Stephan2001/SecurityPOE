@@ -5,10 +5,14 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: circleci/python:3.8  # Use a different image with find pre-installed
+      - image: sonarsource/sonar-scanner-cli
     resource_class: small
     steps:
-      - run: find .  # Now this should work
+      - run:
+          name: Install SonarQube Scanner
+          command: |
+            wget -qO - https://bintray.com/sonarsource/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.6.2.2472-linux.zip | jar x
+            export PATH="$PATH:$PWD/sonar-scanner-4.6.2.2472-linux/bin"
       - run:
           name: Run SonarQube Analysis
           command: |
