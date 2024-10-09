@@ -5,12 +5,9 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: circleci/node:latest  # Use a Node.js image
+      - image: sonarsource/sonar-scanner-cli  # Use the SonarQube Scanner image
     resource_class: small
     steps:
-      - run:
-          name: Install SonarQube Scanner
-          command: npm install -g sonar-scanner
       - run:
           name: Run SonarQube Analysis
           command: |
