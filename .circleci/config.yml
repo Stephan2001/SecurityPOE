@@ -16,6 +16,11 @@ jobs:
       - run:
           name: Run tests
           command: npm test --passWithNoTests
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - frontend
+
   build-node:
     # Build node project
     executor: node/default
@@ -37,15 +42,34 @@ jobs:
       - store_artifacts:
           path: ~/artifacts
           destination: node-build
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - artifacts
+
+  sonarqube:
+    working_directory: ~/build
     docker:
-      - image: cimg/base:stable
+      - image: sonarsource/sonar-scanner-cli
+    resource_class: small
     steps:
-      # Replace this with steps to deploy to users
+      - attach_workspace:
+          at: ~/project
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Run SonarQube Analysis
+          command: |
+            SONAR_BRANCH="${CIRCLE_BRANCH:-master}"
+            echo "Sonar branch value is: " $SONAR_BRANCH
+            echo "Sonar org value is: " $SONAR_ORG
+            sonar-scanner \
+              -Dsonar.projectKey="$SONAR_PROJECT_KEY" \
+              -Dsonar.organization="$SONAR_ORG" \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.exclusions="**/android/**,**/ios/**" \
+              -Dsonar.login="$SONAR_TOKEN" \
+              -Dsonar.branch.name="$SONAR_BRANCH" \
+              -Dsonar.sources="."
+
 workflows:
   build-and-test:
     jobs:
@@ -53,6 +77,9 @@ workflows:
       - build-node:
           requires:
             - test-node
+      - sonarqube:
+          requires:
+            - build-node
     # - deploy:
     #     requires:
     #       - build-node
