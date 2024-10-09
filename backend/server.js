@@ -86,8 +86,22 @@ if (isTest) {
     });
 
     // Create HTTP server to redirect to HTTPS
+    const allowedHosts = ['example.com', 'www.example.com']; // Replace with your allowed hosts
+
     const httpServer = http.createServer((req, res) => {
-        res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+        // Validate Host header
+        const host = req.headers.host;
+
+        if (!allowedHosts.includes(host)) {
+            console.error(`Unauthorized host: ${host}`);
+            res.writeHead(400, { 'Content-Type': 'text/plain' });
+            return res.end('Bad Request');
+        }
+
+        // Sanitize the URL to prevent malicious input
+        const sanitizedUrl = new URL(req.url, `https://${host}`).href; // Use URL constructor to sanitize
+
+        res.writeHead(301, { Location: sanitizedUrl });
         res.end();
     });
 
