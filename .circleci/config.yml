@@ -1,5 +1,3 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:frontend
 version: 2.1
 orbs:
   node: circleci/node@5
@@ -7,13 +5,9 @@ jobs:
   sonarqube:
     working_directory: ~/build
     docker:
-      - image: sonarsource/sonar-scanner-cli
+      - image: circleci/python:3.8  # Use a different image with find pre-installed
     resource_class: small
     steps:
-      - run:
-          name: Install findutils
-          command: |
-            apk add --no-cache findutils  # Install find command
       - run: find .  # Now this should work
       - run:
           name: Run SonarQube Analysis
