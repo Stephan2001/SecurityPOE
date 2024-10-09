@@ -84,7 +84,7 @@ export const Home = () => {
                     value={provider} 
                     onChange={(e) => setProvider(e.target.value)} 
                 >
-                    <option value="SWIFT">SWIFT</option>
+                    <option value="SWIFT">FNB</option>
                 </select>
         
                 {/* Account Info */}

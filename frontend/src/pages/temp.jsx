@@ -14,7 +14,7 @@ const Temp = () => {
 
     return (
         <div>
-            <h1>Welcome to the Temp Page</h1>
+            <h1>Welcome to the Bank</h1>
             <button onClick={handleLogin}>Login</button>
             <button onClick={handleRegister}>Register</button>
         </div>

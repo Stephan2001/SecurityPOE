@@ -30,7 +30,7 @@ describe('POST /api/payment', () => {
             currency: 'USD',
             amount: 100,
             provider: 'Visa',
-            swiftCode: '2345'
+            swiftCode: 'ABCDUS33'
         };
 
         const response = await request(app)

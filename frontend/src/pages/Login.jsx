@@ -55,7 +55,10 @@ export const Login = () => {
             navigate('/home'); // Redirect to home after successful login
         } catch (err) {
             console.error(err);
-            setError(err.response?.data?.error || 'Login failed');
+            const errorMessage = typeof err.response?.data?.error === 'string' 
+                ? err.response.data.error 
+                : 'Login failed';
+            setError(errorMessage);
         }
     };
 
