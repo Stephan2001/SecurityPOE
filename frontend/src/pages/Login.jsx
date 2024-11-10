@@ -79,7 +79,7 @@ export const Login = () => {
 
   return (
     <div className="auth-form-container">
-      <h2 className="heading">Login</h2>
+      <h2 className="heading2">Login</h2>
       <div className="form-wrapper">
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
