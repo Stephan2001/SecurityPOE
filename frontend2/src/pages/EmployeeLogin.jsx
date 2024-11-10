@@ -66,7 +66,7 @@ export const EmployeeLogin = () => {
         }
       )
 
-      navigate('/home') // Redirect to home after successful login
+      navigate('/Payments') // Redirect to home after successful login
     } catch (err) {
       console.error(err)
       const errorMessage =
@@ -114,11 +114,6 @@ export const EmployeeLogin = () => {
           </button>
           {error && <p className="error">{error}</p>}
         </form>
-      </div>
-      <div className="register-link">
-        <button className="btn" onClick={() => navigate('/register')}>
-          <i>Don't have an account? Register here.</i>
-        </button>
       </div>
     </div>
   )
