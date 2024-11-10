@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+const csrfToken = localStorage.getItem('csrfToken')
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
@@ -20,6 +21,31 @@ const PaymentsPage = () => {
 
     fetchPayments()
   }, [])
+
+  // Function to handle the "Confirm" button click and update the payment status
+  const handleConfirmPayment = async (id) => {
+    try {
+      const response = await axios.put(
+        `/api/payment/${id}/confirm`,
+        {},
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken,
+          },
+        }
+      )
+      console.log('Payment updated:', response.data)
+      setPayments((prevPayments) =>
+        prevPayments.map((payment) =>
+          payment._id === id ? { ...payment, confirmed: true } : payment
+        )
+      )
+    } catch (err) {
+      console.error('Error updating payment:', err)
+      setError('Failed to update payment confirmation. Please try again later.')
+    }
+  }
 
   if (loading) {
     return <p>Loading payments...</p>
@@ -45,6 +71,7 @@ const PaymentsPage = () => {
               <th>SWIFT Code</th>
               <th>Confirmed</th>
               <th>Date</th>
+              <th>Validate</th>
             </tr>
           </thead>
           <tbody>
@@ -57,6 +84,17 @@ const PaymentsPage = () => {
                 <td>{payment.swiftCode}</td>
                 <td>{payment.confirmed ? 'Yes' : 'No'}</td>
                 <td>{new Date(payment.createdAt).toLocaleString()}</td>
+                <td>
+                  {/* Button to trigger payment confirmation update */}
+                  {!payment.confirmed && (
+                    <button
+                      className="small-button"
+                      onClick={() => handleConfirmPayment(payment._id)}
+                    >
+                      Confirm Payment
+                    </button>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

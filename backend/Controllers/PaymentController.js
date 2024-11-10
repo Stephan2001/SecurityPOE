@@ -2,6 +2,32 @@ const Payment = require('../models/PaymentModel')
 const mongoose = require('mongoose')
 const validator = require('validator')
 
+const updatePaymentConfirmation = async (req, res) => {
+  const { id } = req.params
+
+  // Validate if the ID is valid
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ error: 'Invalid ID' })
+  }
+
+  try {
+    // Find the payment by ID and update the 'confirmed' field to true
+    const payment = await Payment.findByIdAndUpdate(
+      id,
+      { confirmed: true },
+      { new: true }
+    )
+
+    if (!payment) {
+      return res.status(404).json({ error: 'Payment not found' })
+    }
+
+    res.status(200).json(payment) // Send the updated payment
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' })
+  }
+}
+
 // Create new payment
 const createPayment = async (req, res) => {
   const { AccountNumber, currency, amount, provider, swiftCode } = req.body
@@ -92,4 +118,5 @@ module.exports = {
   createPayment,
   getPayments,
   getPayment,
+  updatePaymentConfirmation,
 }
