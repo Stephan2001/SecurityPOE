@@ -1,7 +1,27 @@
 import './App.css'
+import React, { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import EmployeeLogin from './pages/EmployeeLogin'
 
 function App() {
-  return <div className="App"></div>
+  const [currentForm, setCurrentForm] = useState('login')
+
+  const toggleForm = (formName) => {
+    setCurrentForm(formName)
+  }
+
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/login"
+            element={<EmployeeLogin onFormSwitch={toggleForm} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </div>
+  )
 }
 
 export default App
