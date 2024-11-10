@@ -12,6 +12,7 @@ require('dotenv').config()
 const http = require('http')
 const httpPort = process.env.HTTP_PORT || 3001
 const hsts = require('hsts')
+const employeeRoutes = require('./routes/empRouter')
 
 const app = express()
 
@@ -52,6 +53,7 @@ app.use((req, res, next) => {
 })
 
 // Register routes
+app.use('/api/employees', employeeRoutes)
 app.use('/api/payment', paymentRoute)
 app.use('/api/user', userRoute)
 

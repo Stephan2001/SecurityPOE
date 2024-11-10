@@ -53,7 +53,7 @@ export const EmployeeLogin = () => {
 
     try {
       const response = await axios.post(
-        '/api/user/login',
+        '/api/employees/login',
         {
           fullName: fullname,
           password: pass,

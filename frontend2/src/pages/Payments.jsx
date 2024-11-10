@@ -7,27 +7,26 @@ const PaymentsPage = () => {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    // Fetch payments from the backend API
     const fetchPayments = async () => {
       try {
-        const response = await axios.get('/api/payment') // Endpoint for fetching all payments
-        setPayments(response.data) // Set fetched payments to state
-        setLoading(false) // Set loading to false when data is fetched
+        const response = await axios.get('/api/payment')
+        setPayments(response.data)
+        setLoading(false)
       } catch (err) {
         setError('Failed to fetch payments. Please try again later.')
         setLoading(false)
       }
     }
 
-    fetchPayments() // Call the fetchPayments function on component mount
-  }, []) // Empty dependency array ensures this runs only once when the component mounts
+    fetchPayments()
+  }, [])
 
   if (loading) {
-    return <p>Loading payments...</p> // Display a loading message while fetching data
+    return <p>Loading payments...</p>
   }
 
   if (error) {
-    return <p>{error}</p> // Display an error message if something goes wrong
+    return <p>{error}</p>
   }
 
   return (
