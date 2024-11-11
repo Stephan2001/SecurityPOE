@@ -38,7 +38,3 @@ jobs:
         working-directory: backend
         run: npm test  
 
-      # Optionally, clean up
-      - name: Clean up (optional)
-        run: |
-          docker-compose down  # If you're using Docker for local MongoDB, for example
