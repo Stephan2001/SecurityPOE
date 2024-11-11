@@ -31,7 +31,7 @@ jobs:
       # Set up environment variables (ensure MONGO_URI is configured for testing)
       - name: Set up environment variables
         run: |
-          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV  # Example, use your actual URI
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> $GITHUB_ENV
 
       # Run the unit tests
       - name: Run unit tests
