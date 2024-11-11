@@ -1,0 +1,44 @@
+name: Run Unit Tests with Self-Hosted Runner
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  unit-tests:
+    runs-on: self-hosted  # This ensures that the tests will run on your self-hosted runner
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # You can specify the version that your project uses
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          npm install
+
+      # Set up environment variables (ensure MONGO_URI is configured for testing)
+      - name: Set up environment variables
+        run: |
+          echo "MONGO_URI=mongodb://localhost:27017/testdb" >> $GITHUB_ENV  # Example, use your actual URI
+
+      # Run the unit tests
+      - name: Run unit tests
+        run: |
+          npm test  # Assuming your test command is set up to run with npm test
+
+      # Optionally, clean up
+      - name: Clean up (optional)
+        run: |
+          docker-compose down  # If you're using Docker for local MongoDB, for example
