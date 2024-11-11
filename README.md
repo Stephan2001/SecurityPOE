@@ -4,7 +4,7 @@
 ## YouTube video link
 https://www.youtube.com/watch?v=NJ3uRB49eKU
 
-## Included:
+## Used:
 * CircleCI
 * React Bootstrap
 * Loading Screens
