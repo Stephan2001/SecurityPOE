@@ -15,15 +15,15 @@ jobs:
         image: mongo:4.4
         ports:
           - 27017:27017
-        options: --bind_ip_all
+        options: > 
+          --bind_ip 0.0.0.0
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
 
     env:
       MONGO_URI: mongodb+srv://moolmans20013:9ZMo2N04RpSYvkI6@cluster0.lfx4knj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-      PORT: 3000  # Port your server listens on
-      # Add other environment variables as needed
+      PORT: 3000
 
     steps:
       - name: Checkout code
@@ -39,8 +39,8 @@ jobs:
 
       - name: Start server
         run: |
-          npm run start &  
-          sleep 5          
+          npm run start &  # Start the server in the background
+          sleep 5          # Wait for the server to initialize
 
       - name: Run tests
         run: npm test
