@@ -28,7 +28,7 @@ npm install
 ```
 
 ALTERNATIVELY for backend
-You can use the docker file to run the backend. Will need to create .env file however, an example has been provided. If you want to use myne, message me for IP whitelisting
+You can use the docker file to run the backend. Will need to create .env file however, an example file has been provided. If you want to use myne, message me for IP whitelisting
 For frontend2:
 ```bash
 cd backend
