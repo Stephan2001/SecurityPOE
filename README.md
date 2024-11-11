@@ -27,6 +27,14 @@ cd frontend2
 npm install
 ```
 
+ALTERNATIVELY for backend
+You can use the docker file to run the backend. Will need to create .env file however, an example has been provided. If you want to use myne, message me for IP whitelisting
+For frontend2:
+```bash
+cd backend
+docker-compose up --build
+```
+
 Add .env file (backend):
 ![image](https://github.com/user-attachments/assets/73f864a4-81e8-4942-bd6c-a61fdc270a44)
 
