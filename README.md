@@ -31,6 +31,7 @@ Add .env file (backend):
 ![image](https://github.com/user-attachments/assets/73f864a4-81e8-4942-bd6c-a61fdc270a44)
 
 Add .env file (frontend2):
+
 ![image](https://github.com/user-attachments/assets/5f91589a-1484-4714-9595-1d468b03f751)
 
 
