@@ -36,6 +36,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          working-directory: backend
 
       # Install dependencies in the backend folder
       - name: Install backend dependencies
