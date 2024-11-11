@@ -1,0 +1,46 @@
+name: Run Unit Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        options: --bind_ip_all
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+
+    env:
+      MONGO_URI: mongodb+srv://moolmans20013:9ZMo2N04RpSYvkI6@cluster0.lfx4knj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      PORT: 3000  # Port your server listens on
+      # Add other environment variables as needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Start server
+        run: |
+          npm run start &  
+          sleep 5          
+
+      - name: Run tests
+        run: npm test
