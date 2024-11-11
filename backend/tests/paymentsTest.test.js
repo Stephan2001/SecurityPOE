@@ -39,13 +39,11 @@ beforeAll(async () => {
 
 // Clean up the database and close the MongoDB connection after all tests
 afterAll(async () => {
-  await mongoose.connection.dropDatabase() // Clean up the database
   await mongoose.connection.close() // Close the connection
 
   if (app.close) {
     app.close()
   }
-  process.exit(0)
 })
 
 // Tests
