@@ -2,7 +2,7 @@
 # Prime Vault
 
 ## Please note - follow setup guide
-When trying to run these projects on your own local environment, you need to navigate to each folder and install dependencies.
+When trying to run these projects on your own local environment, you need to navigate to each folder and install dependencies. To much to push and .env should probly not be added as files to repo, but this is the simplist workaround i could do.
 
 For example:
 ```bash
