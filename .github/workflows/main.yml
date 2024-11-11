@@ -26,7 +26,9 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
-          cd SecurityPOE/backend
+          cd ..
+          cd ..
+          cd backend
           npm install
 
       # Set up environment variables (ensure MONGO_URI is configured for testing)
