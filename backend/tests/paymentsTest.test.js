@@ -45,7 +45,6 @@ afterAll(async () => {
   if (app.close) {
     app.close()
   }
-  process.exit(0)
 })
 
 // Tests
