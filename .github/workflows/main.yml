@@ -25,7 +25,6 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        working-directory: backend  
         run: npm install
 
       # Set up environment variables (ensure MONGO_URI is configured for testing)
