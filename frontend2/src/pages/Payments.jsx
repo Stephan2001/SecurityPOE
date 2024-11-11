@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import '../payments.css'
+
 const csrfToken = localStorage.getItem('csrfToken')
 
 const PaymentsPage = () => {
   const [payments, setPayments] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredPayments, setFilteredPayments] = useState([])
 
   useEffect(() => {
     const fetchPayments = async () => {
       try {
         const response = await axios.get('/api/payment')
         setPayments(response.data)
+        setFilteredPayments(response.data) // Display all payments initially
         setLoading(false)
       } catch (err) {
         setError('Failed to fetch payments. Please try again later.')
@@ -23,7 +27,17 @@ const PaymentsPage = () => {
     fetchPayments()
   }, [])
 
-  // Function to handle the "Confirm" button click and update the payment status
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value)
+  }
+
+  const handleSearchClick = () => {
+    const filteredData = payments.filter((payment) =>
+      payment.AccountNumber.includes(searchQuery)
+    )
+    setFilteredPayments(filteredData)
+  }
+
   const handleConfirmPayment = async (id) => {
     try {
       const response = await axios.put(
@@ -38,6 +52,11 @@ const PaymentsPage = () => {
       )
       console.log('Payment updated:', response.data)
       setPayments((prevPayments) =>
+        prevPayments.map((payment) =>
+          payment._id === id ? { ...payment, confirmed: true } : payment
+        )
+      )
+      setFilteredPayments((prevPayments) =>
         prevPayments.map((payment) =>
           payment._id === id ? { ...payment, confirmed: true } : payment
         )
@@ -59,7 +78,22 @@ const PaymentsPage = () => {
   return (
     <div className="payments-container">
       <h2>Payments</h2>
-      {payments.length === 0 ? (
+
+      {/* Search Bar and Button */}
+      <div className="search-bar-container">
+        <input
+          type="text"
+          placeholder="Enter Account Number"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          className="search-bar"
+        />
+        <button onClick={handleSearchClick} className="search-button">
+          Search
+        </button>
+      </div>
+
+      {filteredPayments.length === 0 ? (
         <p>No payments found.</p>
       ) : (
         <table className="payments-table">
@@ -76,7 +110,7 @@ const PaymentsPage = () => {
             </tr>
           </thead>
           <tbody>
-            {payments.map((payment) => (
+            {filteredPayments.map((payment) => (
               <tr key={payment._id}>
                 <td>{payment.AccountNumber}</td>
                 <td>{payment.currency}</td>
@@ -86,7 +120,6 @@ const PaymentsPage = () => {
                 <td>{payment.confirmed ? 'Yes' : 'No'}</td>
                 <td>{new Date(payment.createdAt).toLocaleString()}</td>
                 <td>
-                  {/* Button to trigger payment confirmation update */}
                   {!payment.confirmed && (
                     <button
                       className="small-button"

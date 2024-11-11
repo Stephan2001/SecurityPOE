@@ -14,6 +14,16 @@
   cursor: pointer;
 }
 
+.search-button {
+  padding: 12px 24px; /* Smaller padding for a smaller button */
+  font-size: 20px; /* Slightly smaller font */
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .heading {
   color: black;
   font-size: 70px; /* Set the heading font size to 70px */
