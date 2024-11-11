@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import '../payments.css'
 const csrfToken = localStorage.getItem('csrfToken')
 
 const PaymentsPage = () => {

@@ -1,0 +1,69 @@
+.App {
+  text-align: center;
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(70deg, #7439db, #c66fbc 50%, #f7944d);
+}
+
+/* .payments-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(to right, #ff7e5f, #feb47b);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} */
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: black;
+  font-size: 70px;
+}
+
+.payments-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.payments-table th,
+.payments-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.payments-table th {
+  background-color: #000000;
+  color: white;
+}
+
+.payments-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.payments-table tr:hover {
+  background-color: #ddd;
+}
+
+.small-button {
+  background-color: #14a647;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.small-button:hover {
+  background-color: #206552;
+}

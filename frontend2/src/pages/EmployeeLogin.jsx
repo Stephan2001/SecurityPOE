@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import '../App.css'
+import '../EmployeeLogin.css'
 import { useNavigate } from 'react-router-dom'
 import ReCAPTCHA from 'react-google-recaptcha'
 

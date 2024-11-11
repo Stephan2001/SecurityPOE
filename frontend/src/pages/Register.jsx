@@ -58,7 +58,11 @@ const RegisterPage = () => {
         navigate('/') // Replace '/default' with your default page route
       }
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed')
+      const errorMessage =
+        typeof err.response?.data?.error === 'string'
+          ? err.response.data.error
+          : 'Registration failed. Please try again.'
+      setError(errorMessage)
     }
   }
 
