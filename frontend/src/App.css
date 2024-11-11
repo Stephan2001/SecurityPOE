@@ -80,3 +80,15 @@ button {
 .register {
   color: black;
 }
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-gif {
+  width: 500px; /* Adjust size as needed */
+  height: 500px; /* Adjust size as needed */
+}

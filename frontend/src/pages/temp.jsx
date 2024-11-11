@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
+import Loading from './LoadingScreen' // Import the Loading component
 
 const Temp = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000) // Adjust the delay as needed
+
+    return () => clearTimeout(timer)
+  }, [])
 
   const handleLogin = () => {
     navigate('/login')
@@ -13,7 +23,9 @@ const Temp = () => {
     navigate('/register')
   }
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div>
       <h1 className="heading">Welcome to the Bank</h1>
       <div className="button-container">
