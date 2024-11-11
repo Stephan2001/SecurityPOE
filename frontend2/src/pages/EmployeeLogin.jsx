@@ -70,7 +70,7 @@ export const EmployeeLogin = () => {
         }
       )
       setTimeout(() => {
-        navigate('/home') // Redirect to home after successful login
+        navigate('/Payments') // Redirect to home after successful login
       }, 2000)
 
       navigate('/Payments') // Redirect to home after successful login
