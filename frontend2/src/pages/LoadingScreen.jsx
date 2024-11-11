@@ -1,7 +1,7 @@
 import React from 'react'
-import loadingGif from '../images/login.gif' // Update with your GIF path
+import loadingGif from '../images/loading2.gif' // Update with your GIF path
 
-const LoadingScreen = () => {
+const Loading = () => {
   return (
     <div className="loading-container">
       <img src={loadingGif} alt="Loading..." className="loading-gif" />
@@ -9,4 +9,4 @@ const LoadingScreen = () => {
   )
 }
 
-export default LoadingScreen
+export default Loading

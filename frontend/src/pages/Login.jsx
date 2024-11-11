@@ -4,7 +4,7 @@ import '../login.css'
 import { useNavigate } from 'react-router-dom'
 import Button from 'react-bootstrap/Button'
 import ReCAPTCHA from 'react-google-recaptcha'
-import Loading from './LoadingScreen' // Import the Loading component
+import Loading from './MainLoadingScreen' // Import the Loading component
 
 export const Login = () => {
   const [fullname, setFullname] = useState('')

@@ -28,7 +28,7 @@ const Temp = () => {
     <Loading />
   ) : (
     <div>
-      <h1 className="heading">Welcome to the Bank</h1>
+      <h1 className="heading">Welcome to Prime Vault</h1>
       <div className="button-container">
         <Button variant="dark" onClick={handleLogin} className="button">
           Login
