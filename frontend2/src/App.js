@@ -1,6 +1,6 @@
 import './App.css'
 import React, { useState } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import EmployeeLogin from './pages/EmployeeLogin'
 import Payments from './pages/Payments'
 
@@ -15,6 +15,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
+          {/* Default route to redirect to login */}
+          <Route path="/" element={<Navigate to="/login" />} />
           <Route
             path="/login"
             element={<EmployeeLogin onFormSwitch={toggleForm} />}
