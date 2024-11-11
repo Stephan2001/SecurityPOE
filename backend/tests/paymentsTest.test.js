@@ -41,6 +41,10 @@ beforeAll(async () => {
 afterAll(async () => {
   await mongoose.connection.dropDatabase() // Clean up the database
   await mongoose.connection.close() // Close the connection
+
+  if (app.close) {
+    app.close()
+  }
 })
 
 // Tests
