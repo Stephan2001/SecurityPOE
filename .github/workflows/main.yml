@@ -25,9 +25,8 @@ jobs:
 
       # Install dependencies
       - name: Install dependencies
-        run: |
-          cd backend
-          npm install
+        working-directory: backend
+        run: npm install
 
       # Set up environment variables (ensure MONGO_URI is configured for testing)
       - name: Set up environment variables
@@ -36,8 +35,8 @@ jobs:
 
       # Run the unit tests
       - name: Run unit tests
-        run: |
-          npm test  # Assuming your test command is set up to run with npm test
+        working-directory: backend
+        run: npm test  
 
       # Optionally, clean up
       - name: Clean up (optional)
