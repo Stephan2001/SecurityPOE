@@ -3,6 +3,7 @@ import axios from 'axios'
 import '../EmployeeLogin.css'
 import { useNavigate } from 'react-router-dom'
 import ReCAPTCHA from 'react-google-recaptcha'
+import Loading from './MainLoadingScreen' // Import the Loading component
 
 export const EmployeeLogin = () => {
   const [fullname, setFullname] = useState('')
@@ -10,6 +11,7 @@ export const EmployeeLogin = () => {
   const [csrfToken, setCsrfToken] = useState('')
   const [error, setError] = useState('')
   const [recaptchaValue, setRecaptchaValue] = useState('') // Added state for reCAPTCHA value
+  const [isLoading, setIsLoading] = useState(false) // Added loading state
 
   const navigate = useNavigate() // Hook for programmatic navigation
 
@@ -52,6 +54,8 @@ export const EmployeeLogin = () => {
     }
 
     try {
+      setIsLoading(true) // Set loading state to true
+
       const response = await axios.post(
         '/api/employees/login',
         {
@@ -65,6 +69,9 @@ export const EmployeeLogin = () => {
           },
         }
       )
+      setTimeout(() => {
+        navigate('/home') // Redirect to home after successful login
+      }, 2000)
 
       navigate('/Payments') // Redirect to home after successful login
     } catch (err) {
@@ -74,10 +81,13 @@ export const EmployeeLogin = () => {
           ? err.response.data.error
           : 'Login failed'
       setError(errorMessage)
+      setIsLoading(false) // Reset loading state on error
     }
   }
 
-  return (
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="auth-form-container">
       <h2 className="heading">Login</h2>
       <div className="form-wrapper">

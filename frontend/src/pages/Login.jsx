@@ -73,7 +73,7 @@ export const Login = () => {
 
       setTimeout(() => {
         navigate('/home') // Redirect to home after successful login
-      }, 2000) // Adjust the delay as needed
+      }, 2000)
     } catch (err) {
       console.error(err)
       const errorMessage =
@@ -81,7 +81,7 @@ export const Login = () => {
           ? err.response.data.error
           : 'Login failed'
       setError(errorMessage)
-      setIsLoading(false) // Reset loading state on error } }
+      setIsLoading(false) // Reset loading state on error
     }
   }
 

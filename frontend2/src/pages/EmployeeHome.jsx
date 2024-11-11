@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react'
 import '../Home.css'
+import Loading from './LoadingScreen' // Import the Loading component
 
 export const EmployeeHome = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [paymentData, setPaymentData] = useState([])
   const [errorMessage, setErrorMessage] = useState('')
 
-  return (
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 2000) // Adjust the delay as needed
+
+    return () => clearTimeout(timer)
+  }, [])
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className="payment-data-container">
       <h2 className="heading2">Employee Payment Data</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
