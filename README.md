@@ -35,7 +35,7 @@ Add .env file (frontend2):
 ![image](https://github.com/user-attachments/assets/5f91589a-1484-4714-9595-1d468b03f751)
 
 
-You will also need to use your own MongoDB cluster, as your IP will not be whitelisted.  
+You can use your own MongoDB cluster, as your IP will not be whitelisted.  
 Contact me at `moolmans20013@gmail.com` or `st10219213@vcconnect.edu.za` to have your IP added to the whitelist if needed.  
 I check the first email daily, but the latter not as frequently.
 
