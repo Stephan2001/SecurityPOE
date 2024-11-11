@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import '../App.css'
+import '../login.css'
 import { useNavigate } from 'react-router-dom'
+import Button from 'react-bootstrap/Button'
 import ReCAPTCHA from 'react-google-recaptcha'
 import Loading from './LoadingScreen' // Import the Loading component
 
@@ -118,16 +119,16 @@ export const Login = () => {
               onChange={handleRecaptcha} // Ensure this uses handleRecaptcha function
             />
           </div>
-          <button className="login-button" type="submit">
+          <Button variant="dark" className="login-button" type="submit">
             LOGIN
-          </button>
+          </Button>
           {error && <p className="error">{error}</p>}
         </form>
       </div>
       <div className="register-link">
-        <button className="btn" onClick={() => navigate('/register')}>
+        <Button className="btn" onClick={() => navigate('/register')}>
           <i>Don't have an account? Register here.</i>
-        </button>
+        </Button>
       </div>
     </div>
   )

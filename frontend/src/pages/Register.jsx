@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom' // Import useNavigate
+import '../register.css'
+import Button from 'react-bootstrap/Button'
 
 const RegisterPage = () => {
   const [ID, setID] = useState('')
@@ -64,36 +66,46 @@ const RegisterPage = () => {
     <div>
       <h2 className="heading2">Register</h2>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={ID}
-          onChange={(e) => setID(e.target.value)}
-          placeholder="ID Number"
-          required
-        />
-        <input
-          type="text"
-          value={accountNumber}
-          onChange={(e) => setAccountNumber(e.target.value)}
-          placeholder="Account Number"
-          required
-        />
-        <input
-          type="text"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
-          placeholder="Full Name"
-          required
-        />
-        <input
-          type="password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
-          placeholder="Password"
-          required
-        />
-        <button type="submit">Register</button>
-        {error && <p>{error}</p>}
+        <div className="input-group">
+          <label htmlFor="idNumber">ID Number:</label>
+          <input
+            type="text"
+            value={ID}
+            onChange={(e) => setID(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="accNumber">Account Number:</label>
+          <input
+            type="text"
+            value={accountNumber}
+            onChange={(e) => setAccountNumber(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="fullname">Full name:</label>
+          <input
+            type="text"
+            value={fullname}
+            onChange={(e) => setFullname(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+            required
+          />
+        </div>
+        <Button variant="dark" className="register-button" type="submit">
+          Register
+        </Button>
+        {error && <p className="error">{error}</p>}
       </form>
     </div>
   )

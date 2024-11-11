@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import '../App.css'
+import '../home.css'
+import Button from 'react-bootstrap/Button'
 import { useNavigate } from 'react-router-dom'
 
 export const Home = () => {
@@ -54,53 +55,66 @@ export const Home = () => {
     <div className="auth-form-container">
       <form className="payments-form" onSubmit={handleSubmit}>
         <h2 className="heading2">Payment Form</h2>
-
-        {/* Amount */}
-        <label htmlFor="amount">Amount:</label>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          required
-        />
-
-        {/* Currency */}
-        <label htmlFor="currency">Currency:</label>
-        <select value={currency} onChange={(e) => setCurrency(e.target.value)}>
-          <option value="ZAR">ZAR</option>
-          <option value="USD">USD</option>
-          <option value="EUR">EUR</option>
-          <option value="CAD">CAD</option>
-          <option value="AUD">AUD</option>
-          <option value="GBP">GBP</option>
-        </select>
-
-        {/* Payment Provider */}
-        <label htmlFor="provider">Payment Provider:</label>
-        <select value={provider} onChange={(e) => setProvider(e.target.value)}>
-          <option value="SWIFT">FNB</option>
-        </select>
-
-        {/* Account Info */}
-        <label htmlFor="accountInfo">Account Information:</label>
-        <input
-          type="text"
-          value={accountInfo}
-          onChange={(e) => setAccountInfo(e.target.value)}
-          required
-        />
-
-        {/* SWIFT Code */}
-        <label htmlFor="swiftCode">SWIFT Code:</label>
-        <input
-          type="text"
-          value={swiftCode}
-          onChange={(e) => setSwiftCode(e.target.value)}
-          required
-        />
+        <div className="input-group">
+          {/* Amount */}
+          <label htmlFor="amount">Amount:</label>
+          <input
+            type="number"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          {/* Currency */}
+          <label htmlFor="currency">Currency:</label>
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+          >
+            <option value="ZAR">ZAR</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="CAD">CAD</option>
+            <option value="AUD">AUD</option>
+            <option value="GBP">GBP</option>
+          </select>
+        </div>
+        <div className="input-group">
+          {/* Payment Provider */}
+          <label htmlFor="provider">Payment Provider:</label>
+          <select
+            value={provider}
+            onChange={(e) => setProvider(e.target.value)}
+          >
+            <option value="SWIFT">FNB</option>
+          </select>
+        </div>
+        <div className="input-group">
+          {/* Account Info */}
+          <label htmlFor="accountInfo">Account Information:</label>
+          <input
+            type="text"
+            value={accountInfo}
+            onChange={(e) => setAccountInfo(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          {/* SWIFT Code */}
+          <label htmlFor="swiftCode">SWIFT Code:</label>
+          <input
+            type="text"
+            value={swiftCode}
+            onChange={(e) => setSwiftCode(e.target.value)}
+            required
+          />
+        </div>
 
         {/* Pay now */}
-        <button type="submit">Pay Now</button>
+        <Button variant="dark" className="pay-button" type="submit">
+          Pay Now
+        </Button>
 
         {/* Error and success messages */}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
